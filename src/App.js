@@ -1,31 +1,37 @@
-import React from 'react';
+import axios from 'axios';
+import React, {useState} from 'react';
 import './App.css';
-import Card from './components/Card.jsx';
-import Cards from './components/Cards.jsx';
-import Nav from './components/Nav';
-//import SearchBar from './components/SearchBar.jsx';
-import data, { Cairns } from './data.js';
+import Cards from './components/Cards/Cards.jsx';
+import Nav from './components/Nav/Nav.jsx';
+
+
+const apiKey = '4ae2636d8dfbdc3044bede63951a019b';
+
 
 function App() {
+  const onSearch = (ciudad) => {
+  axios.get(
+    `http://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${apiKey}&units=metric`)
+    .then ((response) => {setCities((oldCities) => [...oldCities, response.data])})
+};
+
+  const onClose = (id) => {
+    setCities ((oldCities) => oldCities.filter((city) => city.id !== id));
+  };
+
+
+  const [cities, setCities] = useState ([]);
+
+  
   return (
     <div className="App">
       <div>
-        <Nav>Esta es la Nav Bar</Nav>
+        <Nav onSearch = {onSearch}>Esta es la Nav Bar</Nav>
       </div>
-      <div>
-        <Card
-          max={Cairns.main.temp_max}
-          min={Cairns.main.temp_min}
-          name={Cairns.name}
-          img={Cairns.weather[0].icon}
-          onClose={() => alert(Cairns.name)}
-        />
-      </div>
+      
       <hr />
       <div>
-        <Cards
-          cities={data}
-        />
+        <Cards cities = {cities} onClose = {onClose}/>
       </div>
       <hr />
     </div>

@@ -29,4 +29,3 @@ Función para cerrar la Card, se debe crear en el App.
 Esta funciones esta en App porque App es el componente PADRE de todos los componentes.
 onClose = (id) => {setCities oldCities => oldCities.filter((city) => city.id !== id)}
 Paso onClose a Cards y Cards se lo da a Card, es importante que la funcion cuando esta en card reciba un id
-para pribar
